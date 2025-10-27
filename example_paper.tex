@@ -1,4 +1,4 @@
-%%%%%%%% ICML 2025 EXAMPLE LATEX SUBMISSION FILE %%%%%%%%%%%%%%%%%
+%%%%%%%% ICML 2026 EXAMPLE LATEX SUBMISSION FILE %%%%%%%%%%%%%%%%%
 
 \documentclass{article}
 
@@ -11,7 +11,7 @@
 % hyperref makes hyperlinks in the resulting PDF.
 % If your build breaks (sometimes temporarily if a hyperlink spans a page)
 % please comment out the following usepackage line and replace
-% \usepackage{icml2025} with \usepackage[nohyperref]{icml2025} above.
+% \usepackage{icml2026} with \usepackage[nohyperref]{icml2026} above.
 \usepackage{hyperref}
 
 
@@ -19,10 +19,10 @@
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
 
 % Use the following line for the initial blind version submitted for review:
-% \usepackage{icml2025}
+% \usepackage{icml2026}
 
 % If accepted, instead use the following line for the camera-ready submission:
-\usepackage[accepted]{icml2025}
+\usepackage[accepted]{icml2026}
 
 % if you use cleveref..
 \usepackage[capitalize,noabbrev]{cleveref}
@@ -48,17 +48,17 @@
 
 % The \icmltitle you define below is probably too long as a header.
 % Therefore, a short form for the running title is supplied here:
-\icmltitlerunning{Submission and Formatting Instructions for ICML 2025}
+\icmltitlerunning{Submission and Formatting Instructions for ICML 2026}
 
 \begin{document}
 
 \twocolumn[
   \icmltitle{Submission and Formatting Instructions for \\
-    International Conference on Machine Learning (ICML 2025)}
+    International Conference on Machine Learning (ICML 2026)}
 
   % It is OKAY to include author information, even for blind submissions: the
   % style file will automatically remove it for you unless you've provided
-  % the [accepted] option to the icml2025 package.
+  % the [accepted] option to the icml2026 package.
 
   % List of affiliations: The first argument should be a (short) identifier you
   % will use later to specify author affiliations Academic affiliations
@@ -108,8 +108,11 @@
 % command is standard text for equal contribution. Remove it (just {}) if you
 % do not need this facility.
 
-%\printAffiliationsAndNotice{}  % leave blank if no need to mention equal contribution
-\printAffiliationsAndNotice{\icmlEqualContribution} % otherwise use the standard text.
+% Use ONE of the following lines. DO NOT remove the command.
+% If you have no special notice, KEEP empty braces:
+\printAffiliationsAndNotice{}  % no special notice (required even if empty)
+% Or, if applicable, use the standard equal contribution text:
+% \printAffiliationsAndNotice{\icmlEqualContribution}
 
 \begin{abstract}
   This document provides a basic paper template and submission guidelines.
@@ -119,7 +122,7 @@
 
 \section{Electronic Submission}
 
-Submission to ICML 2025 will be entirely electronic, via a web site
+Submission to ICML 2026 will be entirely electronic, via a web site
 (not email). Information about the submission process and \LaTeX\ templates
 are available on the conference web site at:
 \begin{center}
@@ -198,7 +201,7 @@ jpeg for photo-like images.
 
 The style file uses the \texttt{hyperref} package to make clickable
 links in documents. If this causes problems for you, add
-\texttt{nohyperref} as one of the options to the \texttt{icml2025}
+\texttt{nohyperref} as one of the options to the \texttt{icml2026}
 usepackage statement.
 
 \subsection{Submitting Final Camera-Ready Copy}
@@ -212,13 +215,13 @@ The footnote, ``Preliminary work. Under review by the International
 Conference on Machine Learning (ICML). Do not distribute.'' must be
 modified to ``\textit{Proceedings of the
   $\mathit{42}^{nd}$ International Conference on Machine Learning},
-Vancouver, Canada, PMLR 267, 2025.
-Copyright 2025 by the author(s).''
+Seoul, South Korea, PMLR XXX, 2026.
+Copyright 2026 by the author(s).''
 
 For those using the \textbf{\LaTeX} style file, this change (and others) is
 handled automatically by simply changing
-$\mathtt{\backslash usepackage\{icml2025\}}$ to
-$$\mathtt{\backslash usepackage[accepted]\{icml2025\}}$$
+$\mathtt{\backslash usepackage\{icml2026\}}$ to
+$$\mathtt{\backslash usepackage[accepted]\{icml2026\}}$$
 Authors using \textbf{Word} must edit the
 footnote on the first page of the document themselves.
 
@@ -229,7 +232,7 @@ The running head should be centered, bold and in $9$~point type. The
 rule should be $10$~points above the main text. For those using the
 \textbf{\LaTeX} style file, the original title is automatically set as running
 head using the \texttt{fancyhdr} package which is included in the ICML
-2025 style file package. In case that the original title exceeds the
+2026 style file package. In case that the original title exceeds the
 size restrictions, a shorter form can be supplied by using
 
 \verb|\icmltitlerunning{...}|
@@ -266,7 +269,7 @@ case.
 \label{author info}
 
 ICML uses double-blind review, so author information must not appear. If
-you are using \LaTeX\/ and the \texttt{icml2025.sty} file, use
+you are using \LaTeX\/ and the \texttt{icml2026.sty} file, use
 \verb+\icmlauthor{...}+ to specify authors and \verb+\icmlaffiliation{...}+
 to specify affiliations. (Read the TeX code used to produce this document for
 an example usage.) The author information will not be printed unless
@@ -316,7 +319,7 @@ list of corresponding authors and their emails (in the format Full Name
 \textless{}email@domain.com\textgreater{}) can follow the list of affiliations.
 Ideally only one or two names should be listed.
 
-A sample file with author names is included in the ICML2025 style file
+A sample file with author names is included in the ICML2026 style file
 package. Turn on the \texttt{[accepted]} option to the stylefile to
 see the names rendered. All of the guidelines above are implemented
 by the \LaTeX\ style file.
@@ -427,6 +430,7 @@ algorithm.sty and algorithmic.sty, which are supplied with this package.
   \end{algorithmic}
 \end{algorithm}
 
+
 \subsection{Tables}
 
 You may also want to include tables that summarize material. Like figures,
@@ -516,7 +520,7 @@ An easy corollary of \cref{thm:bigtheorem} is the following:
 
 Please use APA reference format regardless of your formatter or word processor.
 If you rely on the \LaTeX\/ bibliographic facility, use \texttt{natbib.sty} and
-\texttt{icml2025.bst} included in the style-file package to obtain this format.
+\texttt{icml2026.bst} included in the style-file package to obtain this format.
 
 Citations within the text should include the authors' last names and year. If
 the authors' names are included in the sentence, place only the year in
@@ -605,7 +609,7 @@ for ethics review.
 \nocite{langley00}
 
 \bibliography{example_paper}
-\bibliographystyle{icml2025}
+\bibliographystyle{icml2026}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
