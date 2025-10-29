@@ -1,15 +1,16 @@
-% File: icml2026.sty (LaTeX style file for ICML-2026, version of 2025-10-27)
+% File: icml2026.sty (LaTeX style file for ICML-2026, version of 2025-10-29)
 
 % This file contains the LaTeX formatting parameters for a two-column
 % conference proceedings that is 8.5 inches wide by 11 inches high.
 %
 % Modified by Hanze Dong, 2025
-% Based on the suggestion from Johan Larsson
-% - Added an end-of-document safety check to ensure the affiliations or notice footnote is printed:
-% 1. Introduces a flag \newif\ificml@noticeprinted and sets it false by default.
-% 2. At end of document, emits a package warning if \printAffiliationsAndNotice{...} was never called.
-% - \printAffiliationsAndNotice now sets the flag when called:
-% Begins with \global\icml@noticeprintedtrue.
+% - Added preprint version
+% - Based on the suggestion from Johan Larsson:
+%   1. Added an end-of-document safety check to ensure the affiliations or notice footnote is printed:
+%      (1) Introduces a flag \newif\ificml@noticeprinted and sets it false by default.
+%      (2) At end of document, emits a package warning if \printAffiliationsAndNotice{...} was never called.
+%   2. \printAffiliationsAndNotice now sets the flag when called: Begins with \global\icml@noticeprintedtrue.
+%
 % Modified by Johan Larsson, 2025
 % - Use newtx instead of times, aligning serif, sans-serif, typerwriter,
 %   and math fonts.
@@ -103,7 +104,7 @@
 %%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{icml2026}[2023/11/23 v2.0 ICML Conference Style File]
+\ProvidesPackage{icml2026}[2025/10/29 v2.0 ICML Conference Style File]
 
 % Before 2018, \usepackage{times} was in the example TeX, but inevitably
 % not everybody did it.
@@ -126,11 +127,24 @@
   \gdef\isaccepted{1}
 }
 
+% === Preprint option ===
+\DeclareOption{preprint}{%%
+  \renewcommand{\Notice@String}{\ICML@preprint}%%
+  \gdef\ispreprint{1}%%
+}
+
+% Distinct preprint footer text
+\newcommand{\ICML@preprint}{%
+  \textit{Preprint. \today.}%
+}
+
 \DeclareOption{nohyperref}{%
   \gdef\nohyperref{1}
 }
 
-
+% Helper flag: show real authors for accepted or preprint
+\newif\ificmlshowauthors
+\icmlshowauthorsfalse
 
 %%%%%%%%%%%%%%%%%%%%
 % This string is printed at the bottom of the page for the
@@ -153,10 +167,13 @@ International Conference on Machine Learning (ICML)\@.  Do not distribute.}
 % Cause the declared options to actually be parsed and activated
 \ProcessOptions\relax
 
-\ifdefined\isaccepted\else\ifdefined\hypersetup
-    \hypersetup{pdfauthor={Anonymous Authors}}
- \fi
-\fi
+% After options are processed, decide if authors should be visible
+\ifdefined\isaccepted \icmlshowauthorstrue \fi
+\ifdefined\ispreprint \icmlshowauthorstrue \fi
+
+\ifdefined\isaccepted\else\ifdefined\ispreprint\else\ifdefined\hypersetup
+  \hypersetup{pdfauthor={Anonymous Authors}}
+\fi\fi\fi
 
 \ifdefined\nohyperref\else\ifdefined\hypersetup
   \definecolor{mydarkblue}{rgb}{0,0.08,0.45}
@@ -250,22 +267,6 @@ International Conference on Machine Learning (ICML)\@.  Do not distribute.}
 % bud here. -- Iain Murray 2018.
 %\RequirePackage{printlen}
 \AtBeginDocument{%
-% To get the numbers below, include printlen package above and see lengths like this:
-%\printlength\oddsidemargin\\
-%\printlength\headheight\\
-%\printlength\textheight\\
-%\printlength\marginparsep\\
-%\printlength\footskip\\
-%\printlength\hoffset\\
-%\printlength\paperwidth\\
-%\printlength\topmargin\\
-%\printlength\headsep\\
-%\printlength\textwidth\\
-%\printlength\marginparwidth\\
-%\printlength\marginparpush\\
-%\printlength\voffset\\
-%\printlength\paperheight\\
-%
 \newif\ifmarginsmessedwith
 \marginsmessedwithfalse
 \ifdim\oddsidemargin=-16.62178pt     \else oddsidemargin has been altered.\\ \marginsmessedwithtrue\fi
@@ -278,7 +279,6 @@ International Conference on Machine Learning (ICML)\@.  Do not distribute.}
 \ifdim\topmargin=-24.95781pt         \else topmargin has been altered.\\ \marginsmessedwithtrue\fi
 \ifdim\headsep=10.0pt                \else headsep has been altered.\\ \marginsmessedwithtrue\fi
 \ifdim\textwidth=487.8225pt          \else textwidth has been altered.\\ \marginsmessedwithtrue\fi
-%\ifdim\marginparwidth=65.0pt         \else marginparwidth has been altered.\\ \marginsmessedwithtrue\fi
 \ifdim\marginparpush=5.0pt           \else marginparpush has been altered.\\ \marginsmessedwithtrue\fi
 \ifdim\voffset=0.0pt                 \else voffset has been altered.\\ \marginsmessedwithtrue\fi
 \ifdim\paperheight=794.96999pt       \else paperheight has been altered.\\ \marginsmessedwithtrue\fi
@@ -314,34 +314,17 @@ the offending package(s), or layout-changing commands and try again.
 %%%
 \def\ftype@copyrightbox{8}
 \def\@copyrightspace{
-% Create a float object positioned at the bottom of the column.  Note
-% that because of the mystical nature of floats, this has to be called
-% before the first column is populated with text (e.g., from the title
-% or abstract blocks).  Otherwise, the text will force the float to
-% the next column.  -- TDRL.
 \@float{copyrightbox}[b]
 \begin{center}
 \setlength{\unitlength}{1pc}
 \begin{picture}(20,1.5)
-% Create a line separating the main text from the note block.
-% 4.818pc==0.8in.
 \put(0,2.5){\line(1,0){4.818}}
-% Insert the text string itself.  Note that the string has to be
-% enclosed in a parbox -- the \put call needs a box object to
-% position.  Without the parbox, the text gets splattered across the
-% bottom of the page semi-randomly.  The 19.75pc distance seems to be
-% the width of the column, though I can't find an appropriate distance
-% variable to substitute here.  -- TDRL.
 \put(0,0){\parbox[b]{19.75pc}{\small \Notice@String}}
 \end{picture}
 \end{center}
 \end@float}
 
-% Note: A few Latex versions need the next line instead of the former.
-% \addtolength{\topmargin}{0.3in}
-% \setlength\footheight{0pt}
 \setlength\footskip{25.0pt}
-%\pagestyle{empty}
 \flushbottom \twocolumn
 \sloppy
 
@@ -350,20 +333,6 @@ the offending package(s), or layout-changing commands and try again.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% commands for formatting paper title, author names, and addresses.
-
-%%start%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%% title as running head -- Kristian Kersting 2005 %%%%%%%%%%%%%
-
-
-%\makeatletter
-%\newtoks\mytoksa
-%\newtoks\mytoksb
-%\newcommand\addtomylist[2]{%
-%  \mytoksa\expandafter{#1}%
-%  \mytoksb{#2}%
-%  \edef#1{\the\mytoksa\the\mytoksb}%
-%}
-%\makeatother
 
 % box to check the size of the running head
 \newbox\titrun
@@ -386,7 +355,7 @@ the offending package(s), or layout-changing commands and try again.
    %check whether @icmltitlerunning exists
    % if not \icmltitle is used as running head
    \ifx\undefined\@icmltitlerunning%
-	\gdef\@icmltitlerunning{#1}
+\gdef\@icmltitlerunning{#1}
    \fi
 
    %add it to pdf information
@@ -402,16 +371,16 @@ the offending package(s), or layout-changing commands and try again.
 
    % running title too long
    \ifdim\wd\titrun>\textwidth%
-	  {\gdef\@runningtitleerror{1}}%
+\gdef\@runningtitleerror{1}%
    % running title breaks a line
    \else\ifdim\ht\titrun>6.25pt
-	   {\gdef\@runningtitleerror{2}}%
-	\fi
+\gdef\@runningtitleerror{2}%
+\fi
    \fi
 
    % if there is somthing wrong with the running title
    \ifnum\@runningtitleerror>0
-	   \typeout{}%
+\typeout{}%
            \typeout{}%
            \typeout{*******************************************************}%
            \typeout{Title exceeds size limitations for running head.}%
@@ -430,9 +399,6 @@ the offending package(s), or layout-changing commands and try again.
 % no running title on the first page of the paper
 \thispagestyle{plain}
 
-%%%%%%%%%%%%%%%%%%%% Kristian Kersting %%%%%%%%%%%%%%%%%%%%%%%%%
-%end%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 {\center\baselineskip 18pt
   \toptitlebar{\Large\bf #1}\bottomtitlebar}
 }
@@ -446,10 +412,9 @@ the offending package(s), or layout-changing commands and try again.
     \addstringtofullauthorlist{#1}%
     \gdef\icmlanyauthors{1}%
   \fi%
-  %  \ifdefined\nohyperref\else
   \ifdefined\hypersetup%
     \hypersetup{pdfauthor=\icmlfullauthorlist}%
-  \fi%\fi
+  \fi
 }
 
 \def\toptitlebar{\hrule height1pt \vskip .25in}
@@ -465,7 +430,6 @@ the offending package(s), or layout-changing commands and try again.
 
 \newcounter{@affiliationcounter}
 \newcommand{\@pa}[1]{%
-  % ``#1''
   \ifcsname the@affil#1\endcsname
     % do nothing
   \else
@@ -480,21 +444,15 @@ the offending package(s), or layout-changing commands and try again.
   \ifcsname @icmlsymbol#1\endcsname
     \textsuperscript{\csname @icmlsymbol#1\endcsname\,}%
   \else
-    %\expandafter\footnotemark[\arabic{@affil#1}\,]%
     \textsuperscript{\arabic{@affil#1}\,}%
   \fi
 }
 
-%\newcommand{\icmlauthor}[2]{%
-%\addtofullauthorlist{#1}%
-%#1\@for\theaffil:=#2\do{\pa{\theaffil}}%
-%}
 \newcommand{\icmlauthor}[2]{%
-  \ifdefined\isaccepted
+  \ificmlshowauthors
     \mbox{\bf #1}\,\@for\theaffil:=#2\do{\@pa{\theaffil}} \addtofullauthorlist{#1}%
   \else
-    \ifdefined\@icmlfirsttime
-    \else
+    \ifdefined\@icmlfirsttime\else
       \gdef\@icmlfirsttime{1}
       \mbox{\bf Anonymous Authors}\@pa{@anon} \addtofullauthorlist{Anonymous Authors}
     \fi
@@ -506,7 +464,7 @@ the offending package(s), or layout-changing commands and try again.
 }
 
 \newcommand{\icmlaffiliation}[2]{%
-  \ifdefined\isaccepted
+  \ificmlshowauthors
     \ifcsname the@affil#1\endcsname
       \expandafter\gdef\csname @affilname\csname the@affil#1\endcsname\endcsname{#2}%
     \else
@@ -515,20 +473,19 @@ the offending package(s), or layout-changing commands and try again.
       \typeout{}%
       \typeout{*******************************************************}%
       \typeout{Affiliation label undefined. }%
-      \typeout{Make sure \string\icmlaffiliation\space follows }
+      \typeout{Make sure \string\icmlaffiliation\space follows }%
       \typeout{all of \string\icmlauthor\space commands}%
       \typeout{*******************************************************}%
       \typeout{}%
       \typeout{}%
     \fi
-  \else % \isaccepted
-    % can be called multiple times... it's idempotent
+  \else
     \expandafter\gdef\csname @affilname1\endcsname{Anonymous Institution, Anonymous City, Anonymous Region, Anonymous Country}
   \fi
 }
 
-\newcommand{\icmlcorrespondingauthor}[2]{
-  \ifdefined\isaccepted
+\newcommand{\icmlcorrespondingauthor}[2]{%
+  \ificmlshowauthors
     \ifdefined\icmlcorrespondingauthor@text
       \g@addto@macro\icmlcorrespondingauthor@text{, #1 \textless{}#2\textgreater{}}
     \else
@@ -540,6 +497,7 @@ the offending package(s), or layout-changing commands and try again.
 }
 
 \newcommand{\icmlEqualContribution}{\textsuperscript{*}Equal contribution }
+
 
 % --- ICML 2026: ensure authors do not omit the affiliations/notice footnote ---
 \newif\ificml@noticeprinted
@@ -553,17 +511,18 @@ the offending package(s), or layout-changing commands and try again.
   \fi
 }
 
+
 \newcounter{@affilnum}
 \newcommand{\printAffiliationsAndNotice}[1]{\global\icml@noticeprintedtrue%
   \stepcounter{@affiliationcounter}%
-  {\let\thefootnote\relax\footnotetext{\hspace*{-\footnotesep}\ifdefined\isaccepted #1\fi%
+  {\let\thefootnote\relax\footnotetext{\hspace*{-\footnotesep}\ificmlshowauthors #1\fi%
       \forloop{@affilnum}{1}{\value{@affilnum} < \value{@affiliationcounter}}{
         \textsuperscript{\arabic{@affilnum}}\ifcsname @affilname\the@affilnum\endcsname%
           \csname @affilname\the@affilnum\endcsname%
         \else
           {\bf AUTHORERR: Missing \textbackslash{}icmlaffiliation.}
         \fi
-      }.
+      }.%
       \ifdefined\icmlcorrespondingauthor@text
         Correspondence to: \icmlcorrespondingauthor@text.
       \else
@@ -576,23 +535,12 @@ the offending package(s), or layout-changing commands and try again.
   }
 }
 
-%\makeatother
-
 \long\def\icmladdress#1{%
   {\bf The \textbackslash{}icmladdress command is no longer used.  See the example\_paper PDF .tex for usage of \textbackslash{}icmlauther and \textbackslash{}icmlaffiliation.}
 }
 
 %% keywords as first class citizens
 \def\icmlkeywords#1{%
-  %  \ifdefined\isaccepted \else
-  %    \par {\bf Keywords:} #1%
-  %  \fi
-  %  \ifdefined\nohyperref\else\ifdefined\hypersetup
-  %    \hypersetup{pdfkeywords={#1}}
-  %  \fi\fi
-  %  \ifdefined\isaccepted \else
-  %    \par {\bf Keywords:} #1%
-  %  \fi
   \ifdefined\nohyperref\else\ifdefined\hypersetup
       \hypersetup{pdfkeywords={#1}}
     \fi\fi
@@ -604,8 +552,6 @@ the offending package(s), or layout-changing commands and try again.
 % Redefinition of the abstract environment.
 \renewenvironment{abstract}
 {%
-  % Insert the ``appearing in'' copyright notice.
-  %\@copyrightspace
   \centerline{\large\bf Abstract}
   \vspace{-0.12in}\begin{quote}}
     {\par\end{quote}\vskip 0.12in}
@@ -615,8 +561,6 @@ the offending package(s), or layout-changing commands and try again.
 \def\@startsection#1#2#3#4#5#6{\if@noskipsec \leavevmode \fi
   \par \@tempskipa #4\relax
   \@afterindenttrue
-  % Altered the following line to indent a section's first paragraph.
-  %  \ifdim \@tempskipa <\z@ \@tempskipa -\@tempskipa \@afterindentfalse\fi
   \ifdim \@tempskipa <\z@ \@tempskipa -\@tempskipa \fi
   \if@nobreak \everypar{}\else
     \addpenalty{\@secpenalty}\addvspace{\@tempskipa}\fi \@ifstar
@@ -791,9 +735,7 @@ the offending package(s), or layout-changing commands and try again.
         \cv@lineheight=#1\global\icmlrulercount=#2%
         \cv@tot\cv@boxheight\divide\cv@tot\cv@lineheight\advance\cv@tot2%
         \cv@refno1\vskip-\cv@lineheight\vskip1ex%
-        \loop\setbox\cv@tmpbox=\hbox to0cm{					 % side margin
-            \hfil {\hfil\fillzeros[#4]\icmlrulercount}
-          }%
+        \loop\setbox\cv@tmpbox=\hbox to0cm{\hfil {\hfil\fillzeros[#4]\icmlrulercount}}%
         \ht\cv@tmpbox\cv@lineheight\dp\cv@tmpbox0pt\box\cv@tmpbox\break
         \advance\cv@refno1\global\advance\icmlrulercount#3\relax
         \ifnum\cv@refno<\cv@tot\repeat
@@ -810,12 +752,12 @@ the offending package(s), or layout-changing commands and try again.
   \icmlruleroffset=\textheight
   \advance\icmlruleroffset by 5.2pt % top margin
   \color[rgb]{.7,.7,.7}
-  \ifdefined\isaccepted \else
+  \ificmlshowauthors\else
     \AtTextUpperLeft{%
       \put(\LenToUnit{-35pt},\LenToUnit{-\icmlruleroffset}){%left ruler
         \icmlruler{\icmlrulercount}}
-      %	    \put(\LenToUnit{1.04\textwidth},\LenToUnit{-\icmlruleroffset}){%right ruler
-      %	      \icmlruler{\icmlrulercount}}
+      %\put(\LenToUnit{1.04\textwidth},\LenToUnit{-\icmlruleroffset}){%right ruler
+      %  \icmlruler{\icmlrulercount}}
     }
   \fi
 }
