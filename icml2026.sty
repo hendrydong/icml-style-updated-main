@@ -4,6 +4,7 @@
 % conference proceedings that is 8.5 inches wide by 11 inches high.
 %
 % Modified by Hanze Dong, Alberto Bietti, and Felix Berkenkamp, 2025
+% - Revert to times for better compatibility
 % - Updated years, volume, location
 % - Added preprint version
 % - Based on the suggestion from Johan Larsson:
@@ -110,7 +111,9 @@
 
 % Before 2018, \usepackage{times} was in the example TeX, but inevitably
 % not everybody did it.
-\RequirePackage[amsthm]{newtx}
+% \RequirePackage[amsthm]{newtx}
+% 2025.11.6 revert to times for better compatibility
+\RequirePackage{times}
 
 % Use fancyhdr package
 \RequirePackage{fancyhdr}
