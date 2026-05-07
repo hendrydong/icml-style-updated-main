@@ -129,6 +129,11 @@
   Gross violations will trigger corrections at the camera-ready phase.
 \end{abstract}
 
+% Camera-ready papers must include a conflict of interest disclosure near the
+% end of the introduction. For example:
+% ``Conflict of Interest Disclosure: The authors declare no conflict of
+% interest.''
+
 \section{Electronic Submission}
 
 Submission to ICML 2026 will be entirely electronic, via a web site
@@ -148,13 +153,16 @@ camera-ready copies. Here is a brief summary:
         file, reviewers will very likely miss it.
   \item Page limit: The main body of the paper has to be fitted to 8 pages,
         excluding references and appendices; the space for the latter two is not
-        limited in pages, but the total file size may not exceed 50MB. For the
-        final version of the paper, authors can add one extra page to the main
-        body.
+        limited in pages. The submission PDF, including any appendices, may not
+        exceed 50MB. For the final version of the paper, authors can add one
+        extra page to the main body; the complete camera-ready PDF, including
+        appendices, may not exceed 50MB.
   \item \textbf{Do not include author information or acknowledgements} in your
         initial submission.
   \item Your paper should be in \textbf{10 point Times font}.
-  \item Make sure your PDF file only uses Type-1 fonts.
+  \item Use standard, embedded fonts whenever possible. Type-1 fonts are
+        recommended for compatibility, but authors should follow the current
+        camera-ready checker guidance for the final enforced checks.
   \item Place figure captions \emph{under} the figure (and omit titles from
         inside the graphic file itself). Place table captions \emph{over} the
         table.
@@ -176,19 +184,18 @@ itself. \cref{author info} gives further details.
 \medskip
 
 Authors must provide their manuscripts in \textbf{PDF} format.
-Furthermore, please make sure that files contain only embedded Type-1 fonts
-(e.g.,~using the program \texttt{pdffonts} in linux or using
-File/DocumentProperties/Fonts in Acrobat). Other fonts (like Type-3)
-might come from graphics files imported into the document.
+For best portability, please use standard embedded fonts. Authors may inspect
+their PDFs with tools such as \texttt{pdffonts} in Linux or
+File/DocumentProperties/Fonts in Acrobat. Nonstandard fonts can sometimes come
+from graphics files imported into the document.
 
 Authors using \textbf{Word} must convert their document to PDF\@. Most
 of the latest versions of Word have the facility to do this
 automatically. Submissions will not be accepted in Word format or any
 format other than PDF\@. Really. We're not joking. Don't send Word.
 
-Those who use \textbf{\LaTeX} should avoid including Type-3 fonts.
-Those using \texttt{latex} and \texttt{dvips} may need the following
-two commands:
+Those using \texttt{latex} and \texttt{dvips} who need to improve font
+embedding may find the following commands helpful:
 
 {\footnotesize
 \begin{verbatim}
@@ -199,9 +206,8 @@ It is a zero following the ``-G'', which tells dvips to use
 the config.pdf file. Newer \TeX\ distributions don't always need this
 option.
 
-Using \texttt{pdflatex} rather than \texttt{latex}, often gives better
-results. This program avoids the Type-3 font problem, and supports more
-advanced features in the \texttt{microtype} package.
+Using \texttt{pdflatex} rather than \texttt{latex} often gives better
+results and supports more advanced features in the \texttt{microtype} package.
 
 \textbf{Graphics files} should be a reasonable size, and included from
 an appropriate format. Use vector formats (.eps/.pdf) for plots,
@@ -219,6 +225,18 @@ The final versions of papers accepted for publication should follow the
 same format and naming convention as initial submissions, except that
 author information (names and affiliations) should be given. See
 \cref{final author} for formatting instructions.
+
+The complete camera-ready PDF, including any appendices, must be submitted as a
+single file and may not exceed 50MB. There is no separate camera-ready
+supplementary material upload; any appendix material that should appear with the
+paper must be included in the camera-ready PDF.
+
+Accepted authors must also complete the ICML Publishing Release, the Recording
+Release and License, and the PMLR Publication Agreement. These are separate
+requirements, and completing one does not replace the others. Uploaded release
+or agreement PDFs should not exceed 50MB. Camera-ready authors may also be
+asked to enter the five-letter paper checker code in the OpenReview
+camera-ready form.
 
 The footnote, ``Preliminary work. Under review by the International
 Conference on Machine Learning (ICML). Do not distribute.'' must be
@@ -299,11 +317,10 @@ have shown \ldots'').
 Do not anonymize citations in the reference section. The only exception are manuscripts that are
 not yet published (e.g., under submission). If you choose to refer to
 such unpublished manuscripts \cite{anonymous}, anonymized copies have
-to be submitted
-as Supplementary Material via OpenReview\@. However, keep in mind that an ICML
-paper should be self contained and should contain sufficient detail
-for the reviewers to evaluate the work. In particular, reviewers are
-not required to look at the Supplementary Material when writing their
+to be submitted as supplementary material via OpenReview during review. However,
+keep in mind that an ICML paper should be self contained and should contain
+sufficient detail for the reviewers to evaluate the work. In particular,
+reviewers are not required to look at supplementary material when writing their
 review (they are not required to look at more than the first $8$ pages of the submitted document).
 
 \subsubsection{Camera-Ready Author Information}
@@ -579,9 +596,12 @@ If a paper is accepted, we strongly encourage the publication of software and
 data with the camera-ready version of the paper whenever appropriate. This can
 be done by including a URL in the camera-ready copy. However, \textbf{do not}
 include URLs that reveal your institution or identity in your submission for
-review. Instead, provide an anonymous URL or upload the material as
-``Supplementary Material'' into the OpenReview reviewing system. Note that
-reviewers are not required to look at this material when writing their review.
+review. Instead, provide an anonymous URL or, for the review phase only, upload
+the material as supplementary material into the OpenReview reviewing system.
+Note that reviewers are not required to look at this material when writing their
+review. For the camera-ready version, there is no separate supplementary
+material upload; include appendix material in the single camera-ready PDF and
+use URLs for software or data when appropriate.
 
 % Acknowledgements should only appear in the accepted version.
 \section*{Acknowledgements}
@@ -598,15 +618,18 @@ and corporate sponsors that provided financial support.
 
 \section*{Impact Statement}
 
-Authors are \textbf{required} to include a statement of the potential broader
-impact of their work, including its ethical aspects and future societal
-consequences. This statement should be in an unnumbered section at the end of
-the paper (co-located with Acknowledgements -- the two may appear in either
-order, but both must be before References), and does not count toward the paper
-page limit. In many cases, where the ethical impacts and expected societal
-implications are those that are well established when advancing the field of
-Machine Learning, substantial discussion is not required, and a simple
-statement such as the following will suffice:
+Authors should follow the impact-statement requirements for their paper track.
+For tracks that require an impact statement, include a statement of the
+potential broader impact of the work, including its ethical aspects and future
+societal consequences. This statement should be in an unnumbered section at the
+end of the paper (co-located with Acknowledgements -- the two may appear in
+either order, but both must be before References), and does not count toward the
+paper page limit. Position paper track submissions should follow their
+track-specific instructions and may omit this section if instructed to do so. In
+many cases, where the ethical impacts and expected societal implications are
+those that are well established when advancing the field of Machine Learning,
+substantial discussion is not required, and a simple statement such as the
+following will suffice:
 
 ``This paper presents work whose goal is to advance the field of Machine
 Learning. There are many potential societal consequences of our work, none
